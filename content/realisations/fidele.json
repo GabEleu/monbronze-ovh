@@ -1,0 +1,14 @@
+{
+  "slug": "fidele",
+  "type": "illustratif",
+  "ordre": 3,
+  "univers": "fidelite",
+  "titre": "Fidèle",
+  "description": "Le portrait en bronze d'un cheval, fidèle et unique. La même démarche vaut pour un chien ou un chat.",
+  "visuel": "realisation-fidelite",
+  "besoin": "Un cavalier souhaite une sculpture fidèle et unique de son cheval. Même possibilité pour un chien ou un chat.",
+  "solution": "Scan 3D de l'animal ou photos sous plusieurs angles, choix de l'échelle, impression 3D, cire perdue, patine.",
+  "etapes": ["capturer", "modeliser", "fabriquer", "mouler-et-fondre", "ciseler-et-patiner"],
+  "patine": "vert-de-gris",
+  "modele": "tete-de-cheval"
+}

@@ -1,0 +1,339 @@
+/* ──────────────────────────────────────────────────────────────
+   Échantillons de matière (visuels provisoires, phase 0)
+   Une sphère « matière » par état de la sculpture : points, filaire,
+   impression, forme, cire, fusion, bronze (+ 4 patines).
+   Toujours sur fond charbon, comme un rendu de studio.
+   ────────────────────────────────────────────────────────────── */
+
+.visual {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  container-type: size;
+  width: 100%;
+  background: radial-gradient(110% 80% at 50% 28%, #211d19 0%, #13110f 55%, #0b0a09 100%);
+  color: var(--color-ivoire);
+  --hi: #e8c08a;
+  --mid: #8f5a33;
+  --lo: #2e1a0e;
+  --size: min(60cqw, 62cqh);
+}
+
+.visual--portrait {
+  aspect-ratio: 4 / 5;
+}
+.visual--tall {
+  aspect-ratio: 3 / 4;
+}
+.visual--square {
+  aspect-ratio: 1;
+}
+.visual--landscape {
+  aspect-ratio: 4 / 3;
+}
+.visual--wide {
+  aspect-ratio: 16 / 9;
+}
+/* Paysage sur mobile, portrait sur grand écran (planche de la métamorphose) */
+.visual--step {
+  aspect-ratio: 4 / 3;
+}
+@media (min-width: 1024px) {
+  .visual--step {
+    aspect-ratio: 3 / 4;
+  }
+}
+
+.visual__sample {
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  width: var(--size);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+}
+
+.visual__sample::before,
+.visual__sample::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.visual__floor {
+  position: absolute;
+  left: 50%;
+  top: calc(47% + var(--size) / 2 + 1.5cqh);
+  width: calc(var(--size) * 0.9);
+  height: calc(var(--size) * 0.12);
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.75), transparent);
+  filter: blur(4px);
+}
+
+.visual__marks {
+  position: absolute;
+  inset: 14px;
+  pointer-events: none;
+  --m: rgb(242 236 225 / 0.38);
+  background:
+    linear-gradient(var(--m) 0 0) left top / 12px 1px,
+    linear-gradient(var(--m) 0 0) left top / 1px 12px,
+    linear-gradient(var(--m) 0 0) right top / 12px 1px,
+    linear-gradient(var(--m) 0 0) right top / 1px 12px,
+    linear-gradient(var(--m) 0 0) left bottom / 12px 1px,
+    linear-gradient(var(--m) 0 0) left bottom / 1px 12px,
+    linear-gradient(var(--m) 0 0) right bottom / 12px 1px,
+    linear-gradient(var(--m) 0 0) right bottom / 1px 12px;
+  background-repeat: no-repeat;
+}
+
+.visual__label {
+  position: absolute;
+  z-index: 3;
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  color: var(--color-pierre);
+}
+.visual__label--tl {
+  left: 26px;
+  top: 24px;
+  color: var(--color-ivoire);
+}
+.visual__label--tr {
+  right: 26px;
+  top: 24px;
+  text-align: right;
+}
+.visual__label--bl {
+  left: 26px;
+  bottom: 24px;
+}
+
+/* Visuel étroit : la légende de droite passe sous celle de gauche. */
+@container (max-width: 340px) {
+  .visual__label--tr {
+    top: 42px;
+    left: 26px;
+    right: auto;
+    text-align: left;
+  }
+}
+
+/* Patines */
+[data-patine="brun-medaille"] {
+  --hi: #e8c08a;
+  --mid: #8f5a33;
+  --lo: #2b180c;
+}
+[data-patine="vert-de-gris"] {
+  --hi: #cfe0d4;
+  --mid: #4f7f6f;
+  --lo: #14231d;
+}
+[data-patine="noir"] {
+  --hi: #a89c90;
+  --mid: #2f2a26;
+  --lo: #0b0a09;
+}
+[data-patine="dore"] {
+  --hi: #fff0c4;
+  --mid: #c49a4a;
+  --lo: #46300f;
+}
+
+/* BRONZE : métal patiné, poli sur les reliefs */
+[data-state="bronze"] .visual__sample {
+  background:
+    radial-gradient(circle at 31% 25%, #fff8ea 0%, var(--hi) 5%, transparent 22%),
+    radial-gradient(circle at 36% 31%, var(--mid) 0%, var(--lo) 60%, #070504 100%);
+  box-shadow: inset calc(var(--size) * -0.03) calc(var(--size) * -0.06) calc(var(--size) * 0.12)
+    rgb(0 0 0 / 0.55);
+  transition: background 0.8s var(--ease-expo-out);
+}
+
+/* FUSION : métal incandescent (rayonnement thermique) */
+[data-state="fusion"] .visual__sample {
+  background: radial-gradient(
+    circle at 40% 36%,
+    #fffbea 0%,
+    #ffe08a 10%,
+    #ffab3d 24%,
+    #ff5b1f 42%,
+    #b52a0e 64%,
+    #3a0c05 88%,
+    #160502 100%
+  );
+  box-shadow:
+    0 0 calc(var(--size) * 0.16) calc(var(--size) * 0.02) rgb(255 91 31 / 0.3),
+    0 0 calc(var(--size) * 0.5) calc(var(--size) * 0.06) rgb(255 91 31 / 0.1);
+}
+[data-state="fusion"] .visual__floor {
+  background: radial-gradient(closest-side, rgb(255 91 31 / 0.4), transparent);
+  filter: blur(8px);
+}
+
+/* CIRE : ambrée, translucide */
+[data-state="cire"] .visual__sample {
+  background: radial-gradient(
+    circle at 34% 28%,
+    #fff1cf 0%,
+    #f2c47a 13%,
+    #d18f3f 42%,
+    #8c4f1d 76%,
+    #3a1e0a 100%
+  );
+  box-shadow:
+    inset 0 0 calc(var(--size) * 0.12) rgb(255 196 120 / 0.35),
+    inset calc(var(--size) * -0.03) calc(var(--size) * -0.05) calc(var(--size) * 0.1)
+      rgb(50 20 4 / 0.5);
+}
+
+/* FORME : terre ou plâtre mat */
+[data-state="forme"] .visual__sample {
+  background: radial-gradient(
+    circle at 32% 26%,
+    #fbf7f0 0%,
+    #ddd5c8 22%,
+    #a69e92 60%,
+    #46423c 100%
+  );
+  box-shadow: inset calc(var(--size) * -0.03) calc(var(--size) * -0.06) calc(var(--size) * 0.12)
+    rgb(0 0 0 / 0.45);
+}
+
+/* Ombrage commun des états « numériques » */
+[data-state="points"] .visual__sample::after,
+[data-state="filaire"] .visual__sample::after,
+[data-state="impression"] .visual__sample::after {
+  background: radial-gradient(
+    circle at 34% 28%,
+    transparent 0 16%,
+    rgb(11 10 9 / 0.5) 55%,
+    rgb(11 10 9 / 0.96) 84%
+  );
+}
+
+/* POINTS : nuage de points balayé par un laser */
+[data-state="points"] .visual__sample {
+  background: radial-gradient(circle, rgb(242 236 225 / 0.95) 0 0.6px, transparent 1.3px) 0 0 / 7px
+    7px;
+}
+[data-state="points"] .visual__sample::before {
+  inset: auto -16% auto -16%;
+  top: 58%;
+  height: 1px;
+  border-radius: 0;
+  z-index: 2;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-incandescent) 18%,
+    #ffd9c4 50%,
+    var(--color-incandescent) 82%,
+    transparent
+  );
+  box-shadow: 0 0 calc(var(--size) * 0.03) calc(var(--size) * 0.004) rgb(255 91 31 / 0.6);
+}
+
+/* FILAIRE : maillage triangulé */
+[data-state="filaire"] .visual__sample {
+  --w: rgb(242 236 225 / 0.5);
+  background:
+    repeating-linear-gradient(60deg, var(--w) 0 1px, transparent 1px 15px),
+    repeating-linear-gradient(-60deg, var(--w) 0 1px, transparent 1px 15px),
+    repeating-linear-gradient(0deg, var(--w) 0 1px, transparent 1px 15px);
+  box-shadow: inset 0 0 0 1px rgb(242 236 225 / 0.4);
+}
+
+/* IMPRESSION : couches successives, buse lumineuse au front d'impression */
+[data-state="impression"] .visual__sample {
+  background: repeating-linear-gradient(0deg, #d9d1c4 0 1.5px, #7f786d 1.5px 3px) bottom / 100% 60%
+    no-repeat;
+  box-shadow: inset 0 0 0 1px rgb(242 236 225 / 0.22);
+}
+[data-state="impression"] .visual__sample::before {
+  inset: auto 6% auto 6%;
+  top: 40%;
+  height: 1px;
+  border-radius: 0;
+  z-index: 2;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-incandescent) 30%,
+    #fff1e8 50%,
+    var(--color-incandescent) 70%,
+    transparent
+  );
+  box-shadow: 0 0 calc(var(--size) * 0.03) calc(var(--size) * 0.005) rgb(255 91 31 / 0.65);
+}
+
+/* Média réel en attente d'autorisation écrite : mention toujours visible. */
+.visual__badge {
+  position: absolute;
+  left: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 1;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: rgb(14 13 12 / 0.82);
+  color: var(--color-ivoire);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+}
+
+/* Rendu d'un scan de musée : légende d'honnêteté, en bas de l'image. */
+.visual__legend {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 1;
+  padding: 1.5rem 0.75rem 0.6rem;
+  background: linear-gradient(to top, rgb(14 13 12 / 0.85), transparent);
+  color: var(--color-ivoire);
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: none;
+}
+
+/* Extrait vidéo de l'atelier : bouton pause / lecture (WCAG 2.2.2). */
+.visual__play {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgb(14 13 12 / 0.82);
+  color: var(--color-ivoire);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+}
+
+@media (hover: hover) {
+  .visual__play:hover {
+    background: var(--color-charbon);
+  }
+}
+
+.visual__play:focus-visible {
+  outline: 2px solid var(--color-or);
+  outline-offset: 2px;
+}
+
+/* /concept, téléphone : l'image du projet est étroite ; sa légende de rendu est reprise
+   en entier sous le titre (même texte), au lieu de couvrir l'image. */
+@media (max-width: 639.98px) {
+  .concept-project .visual__legend {
+    display: none;
+  }
+}

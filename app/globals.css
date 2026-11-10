@@ -1,0 +1,1530 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────
+   Jetons de design : palette (BRIEF.md §4), voir CLAUDE.md pour
+   les contrastes mesurés et les règles d'usage.
+   ────────────────────────────────────────────────────────────── */
+@theme {
+  --color-charbon: #0e0d0c;
+  --color-charbon-raise: #171513;
+  --color-bronze: #8a5a32;
+  --color-or: #c49a4a;
+  --color-ivoire: #f2ece1;
+  --color-pierre: #8b867e;
+  --color-pierre-fonce: #5f5a53;
+  --color-incandescent: #ff5b1f;
+  /* Métal en fusion le plus chaud (jauges, coulées) : jamais pour du texte. */
+  --color-fusion: #ffe08a;
+  --color-vert-de-gris: #4f7f6f;
+
+  --ease-expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-power3-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  --breakpoint-3xl: 112rem;
+}
+
+/* Couleurs sémantiques : elles s'inversent selon le thème de section. */
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-raise: var(--surface-raise);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent-ink: var(--accent-ink);
+
+  --font-serif: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+:root,
+.theme-dark {
+  --surface: var(--color-charbon);
+  --surface-raise: var(--color-charbon-raise);
+  --ink: var(--color-ivoire);
+  --ink-muted: var(--color-pierre);
+  --line: rgb(242 236 225 / 0.14);
+  --line-strong: rgb(242 236 225 / 0.42);
+  --accent-ink: var(--color-or);
+  --focus: var(--color-or);
+  color-scheme: dark;
+}
+
+.theme-light {
+  --surface: var(--color-ivoire);
+  --surface-raise: #ebe4d8;
+  --ink: var(--color-charbon);
+  --ink-muted: var(--color-pierre-fonce);
+  --line: rgb(14 13 12 / 0.14);
+  --line-strong: rgb(14 13 12 / 0.45);
+  --accent-ink: var(--color-bronze);
+  --focus: var(--color-bronze);
+  color-scheme: light;
+}
+
+.theme-dark,
+.theme-light {
+  background-color: var(--surface);
+  color: var(--ink);
+}
+
+/* Échelle typographique fluide */
+:root {
+  --gutter: clamp(1rem, 4vw, 4rem);
+  --header-h: 4.5rem;
+  --text-display: clamp(2.75rem, 9.2vw, 10.5rem);
+  --text-h1: clamp(2.5rem, 6.4vw, 7rem);
+  --text-h2: clamp(2.125rem, 4.6vw, 5rem);
+  --text-h3: clamp(1.5rem, 2.4vw, 2.25rem);
+  --text-lead: clamp(1.125rem, 1.5vw, 1.375rem);
+}
+
+@layer base {
+  html {
+    background-color: var(--color-charbon);
+    color: var(--color-ivoire);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
+  }
+
+  body {
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 380;
+    font-variation-settings:
+      "SOFT" 0,
+      "opsz" 144;
+    letter-spacing: -0.012em;
+    word-spacing: 0.04em;
+    line-height: 1;
+    text-wrap: balance;
+  }
+
+  h3 {
+    font-variation-settings:
+      "SOFT" 0,
+      "opsz" 48;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-incandescent);
+    color: var(--color-charbon);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Le contenu principal reçoit le focus du lien d'évitement sans contour parasite. */
+  main:focus {
+    outline: none;
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: 112rem;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Libellé technique en monospace (étapes, températures, numéros) */
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .text-display {
+    font-size: var(--text-display);
+    line-height: 0.92;
+    letter-spacing: -0.022em;
+    word-spacing: 0.06em;
+  }
+
+  .text-h1 {
+    font-size: var(--text-h1);
+    line-height: 0.98;
+  }
+
+  .text-h2 {
+    font-size: var(--text-h2);
+    line-height: 1;
+  }
+
+  .text-h3 {
+    font-size: var(--text-h3);
+  }
+
+  .text-lead {
+    font-size: var(--text-lead);
+    line-height: 1.5;
+  }
+
+  .section {
+    padding-block: clamp(5rem, 12vw, 11rem);
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Accueil : filet de métal incandescent (statique, en attendant la coulée WebGL)
+   ────────────────────────────────────────────────────────────── */
+.hero-pour {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  --x: 78%;
+  background:
+    radial-gradient(34% 26% at var(--x) 0%, rgb(255 91 31 / 0.2), transparent 72%),
+    radial-gradient(14% 10% at var(--x) 0%, rgb(255 196 120 / 0.22), transparent 70%);
+}
+
+.hero-pour::before {
+  content: "";
+  position: absolute;
+  left: var(--x);
+  top: 0;
+  width: 2px;
+  height: 38%;
+  translate: -50% 0;
+  border-radius: 2px;
+  background: linear-gradient(
+    to bottom,
+    #fff3d6 0%,
+    #ffb04a 30%,
+    var(--color-incandescent) 72%,
+    rgb(255 91 31 / 0) 100%
+  );
+  box-shadow: 0 0 16px 2px rgb(255 91 31 / 0.4);
+}
+
+.hero-pour::after {
+  content: "";
+  position: absolute;
+  left: var(--x);
+  top: 38%;
+  width: min(36vw, 520px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgb(255 91 31 / 0.14),
+    rgb(138 90 50 / 0.06) 55%,
+    transparent
+  );
+}
+
+@media (max-width: 767px) {
+  .hero-pour {
+    --x: 84%;
+  }
+}
+
+.page-hero-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(50% 60% at 92% 0%, rgb(138 90 50 / 0.22), transparent 70%);
+}
+
+.hero-scroll-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-incandescent);
+  box-shadow: 0 0 10px 2px rgb(255 91 31 / 0.55);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Canvas WebGL persistant (phase 2) : derrière tout le contenu.
+   Le body est transparent (le fond charbon est porté par <html>) ; les sections
+   opaques recouvrent le canvas, l'accueil devient transparent quand il est prêt.
+   ────────────────────────────────────────────────────────────── */
+body.theme-dark {
+  background-color: transparent;
+}
+
+.webgl-root {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* Jamais d'image périmée : le canvas n'est visible que lorsqu'une scène peint. */
+  visibility: hidden;
+}
+
+[data-webgl="ready"] .webgl-root {
+  visibility: visible;
+}
+
+/* Filet et sculpture statiques : seulement quand il est décidé que le WebGL ne sera pas
+   utilisé (sinon, ils apparaîtraient puis disparaîtraient au chargement du canvas). */
+.hero .hero-pour,
+.hero .hero-bust {
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-expo-out);
+}
+
+[data-webgl="off"] .hero .hero-pour,
+[data-webgl="off"] .hero .hero-bust {
+  opacity: 1;
+}
+
+/* Prêt : l'accueil laisse voir le canvas ; aucun contexte d'empilement entre le H1 et le
+   canvas, pour que le mode de fusion du titre opère sur le métal peint par WebGL. */
+[data-webgl="ready"] .hero {
+  background-color: transparent;
+  isolation: auto;
+}
+
+/* lighten : la lettre vaut max(HTML, canvas). Le HTML, au jeton bronze (3,3:1 sur le
+   charbon, grand texte), est un plancher de lisibilité ; le canvas peint par-dessus
+   l'ivoire, le métal en fusion puis le bronze éclairé. */
+[data-webgl="ready"] .hero-title {
+  color: var(--color-bronze);
+  -webkit-text-stroke: 1px transparent;
+  mix-blend-mode: lighten;
+  transition:
+    color 0.4s var(--ease-power3-out),
+    -webkit-text-stroke-color 0.4s var(--ease-power3-out);
+}
+
+/* Pendant la coulée, les lettres sont un moule vide (cavité sombre) que le métal remplit :
+   le plancher de lisibilité devient leur CONTOUR ivoire (16,5:1 sur le charbon). */
+[data-webgl="ready"][data-hero-phase="pour"] .hero-title {
+  color: transparent;
+  -webkit-text-stroke-color: var(--color-ivoire);
+}
+
+@media (forced-colors: active) {
+  .webgl-root {
+    display: none;
+  }
+  .hero-title {
+    mix-blend-mode: normal !important;
+  }
+}
+
+/* Sculpture : image fixe (version statique) ; la sculpture 3D se cale sur cette boîte,
+   alignée à droite et en bas du titre, sans jamais toucher les textes en dessous. */
+.hero-bust {
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  bottom: 0;
+  height: calc(100% + 2rem);
+  pointer-events: none;
+}
+
+.hero-bust img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hero-content {
+  padding-top: 5rem;
+}
+
+/* Téléphone : la place manque pour la sculpture à côté du titre ; elle se dresse juste
+   au-dessus, à droite, aussi grande que l'écran le permet (le bouton d'action reste visible
+   sur un grand téléphone, la pièce ne descend jamais sous 15rem). À sa gauche, à hauteur
+   du socle, le sur-titre devient un cartel de musée (et l'indication tactile s'y ajoute). */
+@media (max-width: 767px) {
+  .hero {
+    --bust-h: clamp(15rem, 100vh - 33rem, 22rem);
+  }
+  @supports (height: 100svh) {
+    .hero {
+      --bust-h: clamp(15rem, 100svh - 33rem, 22rem);
+    }
+  }
+  .hero-bust {
+    right: 2%;
+    bottom: calc(100% + 0.5rem);
+    height: var(--bust-h);
+  }
+  .hero-content {
+    padding-top: calc(var(--bust-h) + 3.5rem);
+  }
+  .hero-label {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 0.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 10rem;
+  }
+  .hero-title {
+    font-size: clamp(2.75rem, 12.4vw, 4rem);
+  }
+  .hero-pour::before {
+    display: none;
+  }
+}
+
+.hero-skip {
+  position: absolute;
+  z-index: 3;
+  top: 0.75rem;
+  right: var(--gutter);
+  min-height: 2rem;
+  padding: 0.375rem 0.25rem;
+}
+
+/* Creuset de chargement (BRIEF.md §3.2) : le BEC (coin haut droit) est sur le point
+   d'impact du filet WebGL, et sert de pivot à la bascule. */
+.crucible {
+  position: absolute;
+  top: 0.75rem;
+  z-index: 2;
+  width: 5rem;
+  translate: -98.6% 0;
+  transition:
+    opacity 0.6s var(--ease-expo-out),
+    translate 0.45s var(--ease-power3-out);
+}
+
+/* En basculant, le creuset descend : son corps, qui passe au-dessus du bec, reste entier
+   sous l'en-tête, sans jamais couvrir le titre. */
+.crucible[data-state="tipping"],
+.crucible[data-state="pouring"] {
+  translate: -98.6% 3rem;
+}
+
+.crucible__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  transform-origin: 98.6% 4.4%;
+  transition: transform 0.45s var(--ease-power3-out);
+}
+
+.crucible__meta {
+  position: absolute;
+  top: 1.75rem;
+  left: calc(100% + 1.25rem);
+  white-space: nowrap;
+}
+
+.crucible__bath {
+  transform-box: view-box;
+  transform-origin: 34px 40px;
+  transition: transform 0.45s var(--ease-power3-out);
+}
+
+.crucible__level {
+  --level: 0;
+  transform: translateY(calc((1 - var(--level)) * 54px));
+}
+
+.crucible[data-state="tipping"] .crucible__svg,
+.crucible[data-state="pouring"] .crucible__svg {
+  transform: rotate(62deg);
+}
+
+.crucible[data-state="tipping"] .crucible__bath,
+.crucible[data-state="pouring"] .crucible__bath {
+  transform: rotate(-62deg);
+}
+
+.crucible[data-state="pouring"] .crucible__level {
+  transform: translateY(54px);
+  transition: transform 1.6s var(--ease-power3-out);
+}
+
+.crucible[data-state="tipping"] .crucible__meta,
+.crucible[data-state="pouring"] .crucible__meta {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.crucible[data-state="pouring"] {
+  animation: crucible-out 0.6s 1.8s var(--ease-expo-out) forwards;
+}
+
+@keyframes crucible-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Métamorphose (BRIEF.md §3.4) : planche statique par défaut ; défilement épinglé
+   quand le canvas est prêt (data-pinned), la sculpture 3D se calant sur .metamorph-visual.
+   ────────────────────────────────────────────────────────────── */
+.metamorph-track {
+  margin-top: clamp(4rem, 8vw, 6rem);
+}
+
+.metamorph-steps {
+  display: grid;
+  gap: 3.5rem 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .metamorph-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .metamorph-steps {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.metamorph-step {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.metamorph-visual,
+.metamorph-gauge {
+  display: none;
+}
+
+/* Défilement épinglé : la scène reste à l'écran pendant 4 hauteurs d'écran. */
+[data-webgl="ready"] .metamorph {
+  background-color: transparent;
+}
+
+.metamorph[data-pinned] .metamorph-track {
+  height: calc(100svh - var(--header-h) + 400svh);
+}
+
+.metamorph[data-pinned] .metamorph-stage {
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100svh - var(--header-h));
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 1.25rem;
+}
+
+.metamorph[data-pinned] .metamorph-visual {
+  display: block;
+  grid-column: 4 / 10;
+  grid-row: 1;
+  justify-self: center;
+  height: 82%;
+  aspect-ratio: 0.45;
+}
+
+.metamorph[data-pinned] .metamorph-steps {
+  grid-column: 1 / 4;
+  grid-row: 1;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+
+/* Fondu sans superposition : l'étape sortante s'efface vite, l'entrante arrive ensuite. */
+.metamorph[data-pinned] .metamorph-step {
+  grid-area: 1 / 1;
+  opacity: 0;
+  translate: 0 -0.5rem;
+  transition:
+    opacity 0.2s var(--ease-power3-out),
+    translate 0.3s var(--ease-power3-out);
+}
+
+.metamorph[data-pinned] .metamorph-step[data-active] {
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity 0.5s 0.18s var(--ease-power3-out),
+    translate 0.7s 0.18s var(--ease-expo-out);
+}
+
+.metamorph[data-pinned] .metamorph-step-visual {
+  display: none;
+}
+
+.metamorph[data-pinned] .metamorph-step-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+/* La température de chaque étape reste lue par les lecteurs d'écran ; la jauge animée
+   la remplace à l'écran. */
+.metamorph[data-pinned] .metamorph-step-temp {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.metamorph-caption {
+  grid-column: 1 / -1;
+  max-width: 40ch;
+}
+
+.metamorph[data-pinned] .metamorph-caption {
+  grid-column: 8 / 13;
+  grid-row: 2;
+  justify-self: end;
+  text-align: right;
+  padding-bottom: 1.25rem;
+}
+
+.metamorph-step-message {
+  display: none;
+}
+
+.metamorph[data-pinned] .metamorph-step-message {
+  display: block;
+}
+
+.metamorph[data-pinned] .metamorph-gauge {
+  display: flex;
+  grid-column: 11 / 13;
+  grid-row: 1;
+  justify-self: end;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+  text-align: right;
+}
+
+.metamorph-gauge-value {
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-variant-numeric: tabular-nums;
+}
+
+.metamorph-gauge-approx {
+  font-size: 0.7em;
+  color: var(--ink-muted);
+}
+
+.metamorph-gauge-meter {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.metamorph-gauge-scale {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: right;
+}
+
+.metamorph-gauge-bar {
+  position: relative;
+  width: 3px;
+  height: 38svh;
+  background: var(--line);
+}
+
+/* Point bronze au repos (20 °C), remplissage piloté par --heat (0 à 1). */
+.metamorph-gauge-bar::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: var(--color-bronze);
+}
+
+.metamorph-gauge-fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: bottom;
+  transform: scaleY(var(--heat, 0));
+  background: linear-gradient(
+    to top,
+    var(--color-bronze),
+    var(--color-incandescent),
+    var(--color-fusion)
+  );
+}
+
+@media (max-width: 1023px) {
+  .metamorph[data-pinned] .metamorph-stage {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto auto auto;
+    align-items: stretch;
+    row-gap: 0.875rem;
+    padding-bottom: 1.25rem;
+  }
+  .metamorph[data-pinned] .metamorph-visual {
+    grid-column: 1;
+    grid-row: 1;
+    height: 88%;
+    align-self: center;
+  }
+  /* Jauge horizontale, sur sa propre ligne, au-dessus du texte. */
+  .metamorph[data-pinned] .metamorph-gauge {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: stretch;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    text-align: left;
+  }
+  .metamorph[data-pinned] .metamorph-gauge-value {
+    font-size: 1.125rem;
+  }
+  .metamorph[data-pinned] .metamorph-gauge-meter {
+    width: 100%;
+  }
+  .metamorph[data-pinned] .metamorph-gauge-scale {
+    display: none;
+  }
+  .metamorph[data-pinned] .metamorph-gauge-bar {
+    width: 100%;
+    height: 2px;
+  }
+  .metamorph[data-pinned] .metamorph-gauge-bar::after {
+    bottom: auto;
+    top: 50%;
+    left: 0;
+    translate: -50% -50%;
+  }
+  .metamorph[data-pinned] .metamorph-gauge-fill {
+    transform-origin: left;
+    transform: scaleX(var(--heat, 0));
+  }
+  /* Fond charbon sous le texte : contraste garanti, même devant le halo de chaleur. */
+  .metamorph[data-pinned] .metamorph-steps {
+    grid-column: 1;
+    grid-row: 3;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    background: linear-gradient(to top, var(--color-charbon) 70%, transparent);
+  }
+  .metamorph[data-pinned] .metamorph-caption {
+    grid-column: 1;
+    grid-row: 4;
+    justify-self: start;
+    text-align: left;
+    padding-bottom: 0;
+  }
+  .metamorph[data-pinned] .metamorph-step-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Possibilités : la sculpture 3D reste dans sa colonne pendant la lecture des cartes. */
+.possibilities-visual {
+  position: relative;
+  aspect-ratio: 1;
+}
+
+@media (min-width: 1024px) {
+  .possibilities-aside {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+    align-self: start;
+  }
+}
+
+/* Une colonne (téléphone, tablette) : sculpture un peu plus petite et centrée, pour que
+   les sources, la pièce et la rangée des patines tiennent ensemble dans l'écran. */
+@media (max-width: 1023.98px) {
+  .possibilities-visual {
+    max-width: 19rem;
+    margin-inline: auto;
+  }
+}
+
+[data-webgl="ready"] .possibilities[data-live] {
+  background-color: transparent;
+}
+
+.possibilities[data-live] .possibilities-static {
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-expo-out);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Ateliers (BRIEF.md §6.1-4) : grille par défaut, piste horizontale épinglée en JS.
+   ────────────────────────────────────────────────────────────── */
+.ateliers-pin {
+  margin-top: clamp(4rem, 8vw, 6rem);
+}
+
+.ateliers-rail {
+  display: grid;
+  gap: 3.5rem 2rem;
+}
+
+@media (min-width: 768px) {
+  .ateliers-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .ateliers-rail {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.ateliers-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ateliers-progress {
+  display: none;
+}
+
+.ateliers[data-horizontal] {
+  padding-bottom: 0;
+}
+
+.ateliers[data-horizontal] .ateliers-pin {
+  height: calc(100svh - var(--header-h) + var(--distance, 0px));
+}
+
+.ateliers[data-horizontal] .ateliers-stage {
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100svh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+  overflow: hidden;
+}
+
+.ateliers[data-horizontal] .ateliers-rail {
+  display: flex;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  overflow: visible;
+  will-change: transform;
+}
+
+.ateliers[data-horizontal] .ateliers-card {
+  flex: 0 0 min(82vw, 36rem);
+}
+
+.ateliers[data-horizontal] .ateliers-progress {
+  display: block;
+}
+
+/* Écran tactile : piste native au doigt (cartes calées), jauge du glissement dessous. */
+.ateliers[data-swipe] .ateliers-rail {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.ateliers[data-swipe] .ateliers-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.ateliers[data-swipe] .ateliers-card {
+  flex: 0 0 min(82vw, 36rem);
+  scroll-snap-align: start;
+}
+
+.ateliers[data-swipe] .ateliers-progress {
+  display: block;
+  margin-top: 2rem;
+}
+
+.ateliers-progress-track {
+  height: 2px;
+  background: var(--line);
+}
+
+.ateliers-progress-bar {
+  height: 100%;
+  transform-origin: left;
+  transform: scaleX(0);
+  background: var(--color-bronze);
+}
+
+/* Appel final : une dernière petite coulée remplit le bouton (BRIEF.md §6.1-8). */
+.pour-cta a {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.pour-cta a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(
+    to right,
+    var(--color-bronze) 0%,
+    var(--color-bronze) 88%,
+    var(--color-incandescent) 96%,
+    var(--color-fusion) 100%
+  );
+  opacity: 0;
+}
+
+.pour-cta[data-pour] a::before {
+  animation: cta-pour 1.2s var(--ease-power3-out) forwards;
+}
+
+/* Le bouton reste rempli de bronze (texte ivoire : 5,0:1) ; le front incandescent refroidit. */
+@keyframes cta-pour {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+    background: var(--color-bronze);
+  }
+}
+
+@media (hover: hover) {
+  .pour-cta[data-pour] a:hover::before {
+    opacity: 0.8;
+  }
+}
+
+[data-experience="lite"] .pour-cta a::before {
+  animation: none;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Réalisations : déformation au défilement, image qui s'ouvre, scan en temps réel.
+   ────────────────────────────────────────────────────────────── */
+.gallery-media {
+  transform: skewY(var(--scroll-skew, 0deg)) scale(calc(1 + var(--scroll-skew-abs, 0) * 0.02));
+  transform-origin: center;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+html[data-experience="lite"]::view-transition-group(*),
+html[data-experience="lite"]::view-transition-old(*),
+html[data-experience="lite"]::view-transition-new(*) {
+  animation: none !important;
+}
+
+::view-transition-group(.morph) {
+  animation-duration: 0.7s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-visual__box {
+  position: relative;
+  max-width: calc((100svh - 10rem) * 0.8);
+  margin-inline: auto;
+}
+
+/* Retour vers la galerie : l'image fixe sert d'instantané au morph. */
+html:active-view-transition .story-visual[data-live] .story-visual__box .visual {
+  opacity: 1;
+  transition: none;
+}
+
+[data-webgl="ready"] header.story-hero {
+  background-color: transparent;
+}
+
+.story-visual[data-live] .story-visual__box .visual {
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-expo-out) 0.3s;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Systèmes d'expérience (phase 6) : curseur, rideau de métal liquide, 404, menu.
+   ────────────────────────────────────────────────────────────── */
+.heat-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.heat-cursor[data-visible] {
+  opacity: 1;
+}
+
+.heat-cursor__dot,
+.heat-cursor__halo {
+  position: absolute;
+  border-radius: 50%;
+  translate: -50% -50%;
+}
+
+.heat-cursor__dot {
+  width: 6px;
+  height: 6px;
+  background: var(--color-incandescent);
+}
+
+.heat-cursor__halo {
+  width: 44px;
+  height: 44px;
+  background: radial-gradient(closest-side, rgb(255 91 31 / 0.28), transparent);
+  transition:
+    width 0.4s var(--ease-expo-out),
+    height 0.4s var(--ease-expo-out);
+}
+
+.heat-cursor[data-mode="button"] .heat-cursor__halo {
+  width: 70px;
+  height: 70px;
+}
+
+.heat-cursor__label {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: var(--color-charbon);
+  color: var(--color-ivoire);
+  font-size: 0.625rem;
+  white-space: nowrap;
+  opacity: 0;
+  scale: 0.8;
+  transition:
+    opacity 0.3s,
+    scale 0.4s var(--ease-expo-out);
+}
+
+.heat-cursor[data-mode="story"] .heat-cursor__label {
+  opacity: 1;
+  scale: 1;
+}
+
+.metal-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: visible;
+  visibility: hidden;
+  pointer-events: none;
+  background: linear-gradient(to bottom, #1a1410, var(--color-charbon) 30%);
+}
+
+/* Front incandescent du rideau : le métal liquide qui monte. */
+.metal-curtain__edge {
+  position: absolute;
+  inset-inline: -5%;
+  top: -24px;
+  height: 48px;
+  background:
+    radial-gradient(60% 100% at 50% 100%, rgb(255 224 138 / 0.95), transparent 70%),
+    linear-gradient(to top, var(--color-incandescent), rgb(255 91 31 / 0));
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  filter: blur(2px);
+  -webkit-mask-image: radial-gradient(18px 26px at 50% 100%, #000 70%, transparent 72%);
+  mask-image: radial-gradient(18px 26px at 50% 100%, #000 70%, transparent 72%);
+  -webkit-mask-size: 46px 48px;
+  mask-size: 46px 48px;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  animation: curtain-drip 0.9s linear infinite;
+}
+
+@keyframes curtain-drip {
+  to {
+    -webkit-mask-position: 46px 0;
+    mask-position: 46px 0;
+  }
+}
+
+.molten-404 {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  font-size: clamp(7rem, 30vw, 26rem);
+}
+
+.molten-404[data-calm] {
+  display: none;
+}
+
+/* Avec l'effet, le métal fondu remplace le texte (qui reste dans le HTML, masqué à l'écran). */
+.molten-404-text:has(+ .molten-404:not([data-calm])) {
+  opacity: 0;
+}
+
+.menu-states {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.menu-states img {
+  position: absolute;
+  right: 4vw;
+  bottom: 0;
+  height: min(78dvh, 46rem);
+  width: auto;
+  opacity: 0;
+  transition: opacity 0.7s var(--ease-expo-out);
+}
+
+.menu-states img[data-active] {
+  opacity: 0.55;
+}
+
+@media (max-width: 1023px) {
+  .menu-states img {
+    right: -10vw;
+    height: 60dvh;
+  }
+  .menu-states img[data-active] {
+    opacity: 0.3;
+  }
+}
+
+.sound-bar {
+  animation: sound-bar 0.9s ease-in-out infinite alternate;
+  transform-origin: bottom;
+}
+
+@keyframes sound-bar {
+  to {
+    transform: scaleY(0.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sound-bar {
+    animation: none;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Formulaire de contact (BRIEF.md §7)
+   ────────────────────────────────────────────────────────────── */
+.contact-progress {
+  height: 4px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+/* La barre se remplit de métal : bronze, front incandescent. */
+.contact-progress__metal {
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    var(--color-bronze) 80%,
+    var(--color-incandescent),
+    var(--color-fusion)
+  );
+  transition: width 0.8s var(--ease-expo-out);
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-height: 9rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line-strong);
+  cursor: pointer;
+  transition:
+    border-color 0.3s,
+    background-color 0.3s;
+}
+
+@media (hover: hover) {
+  .contact-card:hover {
+    border-color: var(--ink);
+  }
+}
+
+/* Téléphone : cartes à la hauteur de leur texte (les six tiennent presque dans un écran). */
+@media (max-width: 639.98px) {
+  .contact-card {
+    min-height: 0;
+    gap: 0.375rem;
+    padding: 1rem 1.25rem;
+  }
+}
+
+/* Téléphone et tablette : « Continuer » reste sous le pouce, en bas de l'écran, pendant
+   tout le formulaire (plus d'aller-retour entre le choix et le bouton). */
+@media (max-width: 767.98px) {
+  .contact-nav {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    margin-inline: calc(-1 * var(--gutter));
+    padding: 0.75rem var(--gutter) max(0.75rem, env(safe-area-inset-bottom));
+    background: var(--surface);
+  }
+}
+
+.contact-card:has(:checked) {
+  border-color: var(--color-bronze);
+  background: var(--surface-raise);
+  box-shadow: inset 0 0 0 1px var(--color-bronze);
+}
+
+.contact-card:has(:focus-visible),
+.contact-chip:has(:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.contact-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.contact-chip:has(:checked) {
+  border-color: var(--color-bronze);
+  background: var(--color-bronze);
+  color: var(--color-ivoire);
+}
+
+.contact-drop {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 2rem;
+  border: 1px dashed var(--line-strong);
+  text-align: center;
+  transition:
+    border-color 0.3s,
+    background-color 0.3s;
+}
+
+.contact-drop label:has(:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+[data-experience="lite"] .seal {
+  animation: none;
+}
+
+.contact-drop[data-over] {
+  border-color: var(--color-bronze);
+  background: var(--surface-raise);
+}
+
+.contact-file {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border: 1px solid var(--line);
+}
+
+.contact-file__ext {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  background: var(--surface-raise);
+  text-transform: uppercase;
+}
+
+.contact-file__bar {
+  height: 3px;
+  background: var(--line);
+}
+
+.contact-file__bar > div {
+  height: 100%;
+  background: var(--color-bronze);
+  transition: width 0.3s;
+}
+
+.contact-error {
+  color: #8f1c15;
+  font-size: 0.875rem;
+}
+
+.contact-errors {
+  padding: 1rem 1.25rem;
+  border-left: 3px solid #8f1c15;
+  background: var(--surface-raise);
+  color: #6e140f;
+}
+
+.contact-trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Confirmation : le sceau en bronze se frappe. */
+.seal {
+  width: 9rem;
+  height: 9rem;
+  animation: seal-strike 0.9s var(--ease-power3-out) both;
+}
+
+.seal__disc {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 10px 18px rgb(14 13 12 / 0.35));
+}
+
+.seal__ring {
+  fill: var(--color-ivoire);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+
+.seal__mark {
+  fill: var(--color-ivoire);
+  font-family: var(--font-serif);
+  font-size: 46px;
+}
+
+@keyframes seal-strike {
+  0% {
+    transform: scale(1.8) rotate(-12deg);
+    opacity: 0;
+  }
+  55% {
+    transform: scale(0.94) rotate(0deg);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seal {
+    animation: none;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Grain de film : très léger, fixe (aucune animation).
+   ────────────────────────────────────────────────────────────── */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+
+[data-experience="lite"] .grain {
+  display: none;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis [data-lenis-prevent],
+.lenis [data-lenis-prevent-wheel],
+.lenis [data-lenis-prevent-touch] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Écran tactile (pas de survol) : chaque effet de survol a son équivalent au doigt.
+   L'ordinateur (survol possible) n'est pas concerné par ces règles.
+   ────────────────────────────────────────────────────────────── */
+.touch-hint {
+  display: none;
+}
+
+/* Carte de la section « Les possibilités » montrée sur la sculpture (toucher ou glissement). */
+.possibilities-source[data-active] {
+  background: var(--surface-raise);
+  box-shadow: inset 0 2px 0 var(--color-or);
+}
+
+@media (hover: none) {
+  /* Place réservée (pas de saut de mise en page) ; visible quand la scène 3D est prête. */
+  .touch-hint {
+    display: block;
+    visibility: hidden;
+  }
+  [data-live] .touch-hint,
+  html[data-webgl="ready"][data-hero-phase="done"] .hero-hint {
+    visibility: visible;
+  }
+  html[data-webgl="off"] .touch-hint {
+    display: none;
+  }
+
+  /* Un glissement horizontal tourne la sculpture ; le vertical reste un défilement. */
+  .possibilities-visual,
+  .story-visual__box {
+    touch-action: pan-y;
+  }
+
+  /* Retour visuel au toucher des boutons (remplace le survol). */
+  .tap-press {
+    transition: scale 0.2s var(--ease-power3-out);
+  }
+  .tap-press:active {
+    scale: 0.97;
+  }
+}
+
+/* Téléphone et tablette : les sources deviennent des cartes à faire glisser, juste au-dessus
+   de la sculpture, qui prend l'aspect de la carte calée à gauche. */
+@media (hover: none) and (max-width: 1023.98px) {
+  .possibilities-sources {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .possibilities-sources::-webkit-scrollbar {
+    display: none;
+  }
+  .possibilities-source {
+    flex: 0 0 82%;
+    scroll-snap-align: start;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+  }
+  /* Cartes et sculpture tiennent ensemble dans l’écran. */
+  .possibilities-aside {
+    margin-top: -1.5rem;
+  }
+}
+
+@media (hover: none) and (min-width: 640px) and (max-width: 1023.98px) {
+  .possibilities-source {
+    flex-basis: 46%;
+  }
+}
+
+@media (hover: none) and (min-width: 1024px) {
+  .touch-hint--narrow {
+    display: none;
+  }
+}
+
+/* Galerie au doigt : l'image se pose en entrant dans l'écran (au lieu du zoom au survol). */
+@media (hover: none) and (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    html:not([data-experience="lite"]) .card-media {
+      animation: card-settle linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 50%;
+    }
+  }
+}
+
+@keyframes card-settle {
+  from {
+    scale: 1.08;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+/* Mouvement réduit ou expérience allégée : transitions quasi nulles. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+[data-experience="lite"] *,
+[data-experience="lite"] *::before,
+[data-experience="lite"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}

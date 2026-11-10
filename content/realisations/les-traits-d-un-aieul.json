@@ -1,0 +1,14 @@
+{
+  "slug": "les-traits-d-un-aieul",
+  "type": "illustratif",
+  "ordre": 1,
+  "univers": "memoire",
+  "titre": "Les traits d'un aïeul",
+  "description": "Un buste pour que les traits d'un grand-père restent présents dans la maison familiale.",
+  "visuel": "realisation-memoire",
+  "besoin": "Une famille ne possède que quelques photographies d'un grand-père disparu et souhaite un buste pour la maison familiale.",
+  "solution": "Modélisation du visage à partir des photos, validation des traits avec la famille, impression 3D du modèle, fonte à la cire perdue, ciselure, patine brun médaille.",
+  "etapes": ["modeliser", "fabriquer", "mouler-et-fondre", "ciseler-et-patiner"],
+  "patine": "brun-medaille",
+  "modele": "buste-romain"
+}

@@ -1,0 +1,14 @@
+{
+  "slug": "memoire-commune",
+  "type": "illustratif",
+  "ordre": 6,
+  "univers": "patrimoine",
+  "titre": "Mémoire commune",
+  "description": "Une sculpture commandée par une commune pour honorer une personnalité ou commémorer un événement.",
+  "visuel": "realisation-patrimoine",
+  "besoin": "Une mairie souhaite commander une sculpture pour honorer une personnalité ou commémorer un événement.",
+  "solution": "Étude du projet et du lieu d'implantation, modélisation à partir d'archives, maquette, réalisation en bronze, patine adaptée à l'extérieur.",
+  "etapes": ["modeliser", "mouler-et-fondre", "ciseler-et-patiner"],
+  "patine": "vert-de-gris",
+  "modele": "prince-hellenistique"
+}

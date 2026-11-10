@@ -1,0 +1,9 @@
+# monbronze.fr : activation automatique du HTTPS (voir deploy/auto-https.sh).
+[Unit]
+Description=monbronze.fr : HTTPS automatique dès que le domaine pointe ici
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/srv/monbronze/bin/deploy/auto-https.sh

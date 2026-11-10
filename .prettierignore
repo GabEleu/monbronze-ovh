@@ -1,0 +1,12 @@
+.next
+node_modules
+raw
+screenshots
+reports
+test-results
+playwright-report
+public/models
+public/hdr
+public/audio
+BRIEF.md
+package-lock.json

@@ -1,0 +1,36 @@
+# monbronze.fr : serveur Next.js autonome, derrière Nginx (installé par setup-vps.sh).
+# Journal : journalctl -u monbronze -f
+[Unit]
+Description=monbronze.fr (Next.js)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=monbronze
+Group=monbronze
+WorkingDirectory=/srv/monbronze/current
+EnvironmentFile=/srv/monbronze/shared/.env.production
+Environment=NODE_ENV=production
+Environment=PORT=3000
+# N'écoute que la machine elle-même : seul Nginx est exposé.
+Environment=HOSTNAME=127.0.0.1
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=3
+
+# Durcissement : système en lecture seule, sauf le cache de Next dans les versions.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+# + contenu et médias modifiés depuis l'espace d'administration (CONTENT_DIR, MEDIA_DIR).
+ReadWritePaths=/srv/monbronze/releases /srv/monbronze/shared/content /srv/monbronze/shared/media
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target

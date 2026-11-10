@@ -1,0 +1,14 @@
+{
+  "slug": "le-meme-jour-pour-toujours",
+  "type": "illustratif",
+  "ordre": 2,
+  "univers": "amour",
+  "titre": "Le même jour, pour toujours",
+  "description": "Le souvenir d'un mariage, fixé dans le bronze à partir des photographies du grand jour.",
+  "visuel": "realisation-amour",
+  "besoin": "Un couple souhaite une sculpture le représentant, à partir de photographies de son mariage.",
+  "solution": "Composition étudiée ensemble (silhouettes ou mains entrelacées), modélisation, impression 3D, fonte, patine choisie par le couple.",
+  "etapes": ["modeliser", "fabriquer", "mouler-et-fondre", "ciseler-et-patiner"],
+  "patine": "dore",
+  "modele": "relief-couple"
+}

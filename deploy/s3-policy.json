@@ -1,0 +1,10 @@
+{
+  "Statement": [
+    {
+      "Sid": "MonbronzePiecesJointes",
+      "Effect": "Allow",
+      "Action": ["s3:PutObject", "s3:GetObject"],
+      "Resource": ["arn:aws:s3:::NOM_DU_CONTENEUR/demandes/*"]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "slug": "ce-qui-se-transmet",
+  "type": "illustratif",
+  "ordre": 5,
+  "univers": "transmission",
+  "titre": "Ce qui se transmet",
+  "description": "Une pièce fragile de collection devient bronze, pour pouvoir se transmettre.",
+  "visuel": "realisation-transmission",
+  "besoin": "Un amateur d'art souhaite transformer une pièce fragile de sa collection en bronze pour la transmettre.",
+  "solution": "Scan 3D sans contact, changement d'échelle éventuel, impression 3D, fonte, patine.",
+  "etapes": ["capturer", "modeliser", "fabriquer", "mouler-et-fondre", "ciseler-et-patiner"],
+  "patine": "noir",
+  "modele": "brule-parfum"
+}

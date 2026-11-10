@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Crochet du dépôt /srv/monbronze/repo.git (installé par setup-vps.sh) : un push sur main
+# construit et active le site. Le journal s'affiche dans le terminal de celui qui pousse.
+while read -r _old new ref; do
+  if [ "$ref" = "refs/heads/main" ]; then
+    if /srv/monbronze/bin/build-release "$new"; then
+      echo "✔ monbronze.fr : nouvelle version en ligne."
+    else
+      echo "✘ monbronze.fr : échec, le site garde la version précédente (journal ci-dessus)." >&2
+    fi
+  fi
+done

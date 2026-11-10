@@ -1,0 +1,14 @@
+{
+  "slug": "une-oeuvre-change-de-matiere",
+  "type": "illustratif",
+  "ordre": 4,
+  "univers": "creation",
+  "titre": "Une œuvre change de matière",
+  "description": "Le tirage en bronze d'une œuvre originale, réalisé selon les indications de son auteur.",
+  "visuel": "realisation-creation",
+  "besoin": "Un sculpteur souhaite faire réaliser un tirage en bronze de l'une de ses œuvres.",
+  "solution": "Moule silicone et plâtre de l'original, cire, fonte, ciselure et patine selon les indications de l'artiste, dans le respect du code de déontologie des fondeurs d'art.",
+  "etapes": ["mouler-et-fondre", "ciseler-et-patiner"],
+  "modele": "buste-romain",
+  "patine": "noir"
+}

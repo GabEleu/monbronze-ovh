@@ -1,0 +1,11 @@
+# monbronze.fr : vérifie toutes les 5 minutes si le domaine pointe vers ce serveur, puis active
+# le HTTPS et s'arrête (deploy/auto-https.sh).
+[Unit]
+Description=monbronze.fr : HTTPS automatique (vérification toutes les 5 minutes)
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+
+[Install]
+WantedBy=timers.target
